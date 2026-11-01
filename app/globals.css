@@ -1,0 +1,442 @@
+@import "tailwindcss";
+
+/* Lenis' own stylesheet (inlined so there is no package-path import to break). */
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+.lenis:not(.lenis-autoToggle).lenis-stopped {
+  overflow: clip;
+}
+.lenis.lenis-smooth iframe {
+  pointer-events: none;
+}
+
+/* ------------------------------------------------------------------
+   Brand system
+   Orange #FF6B00 (REUDE mark), light #FF8A1F, black #0A0A0A.
+   Display: Space Grotesk · Text: Inter · Telemetry: JetBrains Mono
+   ------------------------------------------------------------------ */
+@theme inline {
+  --font-display: var(--font-space), "Arial Black", system-ui, sans-serif;
+  --font-sans: var(--font-inter), system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-mono: var(--font-jetbrains), ui-monospace, Menlo, monospace;
+
+  --color-orange: #ff6b00;
+  --color-orange-light: #ff8a1f;
+  --color-ink: #0a0a0a;
+  --color-dark: #111111;
+  --color-grey: #8b909b;
+}
+
+@layer base {
+  html {
+    -webkit-text-size-adjust: 100%;
+    background: #0a0a0a;
+  }
+  html.is-loading,
+  html.menu-open {
+    overflow: hidden;
+  }
+  body {
+    margin: 0;
+    background: #0a0a0a;
+    color: #ffffff;
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    overflow-x: clip;
+  }
+  ::selection {
+    background: #ff6b00;
+    color: #0a0a0a;
+  }
+  :focus-visible {
+    outline: 2px solid #ff8a1f;
+    outline-offset: 3px;
+    border-radius: 6px;
+  }
+  img {
+    display: block;
+    max-width: 100%;
+  }
+  button {
+    font: inherit;
+    cursor: pointer;
+  }
+  /* custom cursor only where a fine pointer exists */
+  html.has-cursor,
+  html.has-cursor a,
+  html.has-cursor button,
+  html.has-cursor [data-cursor] {
+    cursor: none;
+  }
+}
+
+@layer utilities {
+  .text-gradient-orange {
+    background-image: linear-gradient(95deg, #ff6b00 0%, #ff8a1f 55%, #ffb347 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    -webkit-text-fill-color: transparent;
+  }
+  .glass {
+    background: rgba(10, 10, 10, 0.55);
+    -webkit-backdrop-filter: blur(16px) saturate(140%);
+    backdrop-filter: blur(16px) saturate(140%);
+    border: 1px solid rgba(255, 255, 255, 0.09);
+  }
+  .hairline {
+    border-color: rgba(255, 255, 255, 0.1);
+  }
+  .grid-bg {
+    background-image:
+      linear-gradient(rgba(255, 255, 255, 0.04) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255, 255, 255, 0.04) 1px, transparent 1px);
+    background-size: 56px 56px;
+  }
+  .eyebrow {
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: #ff8a1f;
+  }
+}
+
+/* ---------- Custom cursor ---------- */
+.cursor-dot,
+.cursor-ring {
+  position: fixed;
+  left: 0;
+  top: 0;
+  z-index: 200;
+  pointer-events: none;
+  border-radius: 9999px;
+  opacity: 0;
+}
+.cursor-dot {
+  width: 8px;
+  height: 8px;
+  background: #ff6b00;
+  box-shadow: 0 0 14px rgba(255, 107, 0, 0.9);
+}
+.cursor-ring {
+  width: 38px;
+  height: 38px;
+  border: 1.5px solid rgba(255, 107, 0, 0.75);
+  transition:
+    width 0.3s cubic-bezier(0.2, 0.7, 0.1, 1),
+    height 0.3s cubic-bezier(0.2, 0.7, 0.1, 1),
+    background-color 0.3s,
+    border-color 0.3s;
+}
+.cursor-ring.is-hover {
+  width: 64px;
+  height: 64px;
+  background: rgba(255, 107, 0, 0.12);
+  border-color: rgba(255, 138, 31, 0.9);
+}
+
+/* ---------- Marquee ---------- */
+@keyframes marquee-left {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+  to {
+    transform: translate3d(-50%, 0, 0);
+  }
+}
+@keyframes marquee-right {
+  from {
+    transform: translate3d(-50%, 0, 0);
+  }
+  to {
+    transform: translate3d(0, 0, 0);
+  }
+}
+.marquee-track {
+  display: flex;
+  width: max-content;
+  animation: marquee-left 38s linear infinite;
+}
+.marquee-track.reverse {
+  animation-name: marquee-right;
+  animation-duration: 52s;
+}
+.marquee:hover .marquee-track {
+  animation-play-state: paused;
+}
+.text-outline {
+  -webkit-text-stroke: 1.5px rgba(255, 255, 255, 0.55);
+  color: transparent;
+}
+
+/* ---------- 3D product cards ---------- */
+.card3d {
+  perspective: 1500px;
+}
+.card3d__inner {
+  position: relative;
+  height: 100%;
+  transform-style: preserve-3d;
+  will-change: transform;
+}
+.card3d__face {
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+  border-radius: 1.5rem;
+  overflow: hidden;
+}
+.card3d__back {
+  position: absolute;
+  inset: 0;
+  transform: rotateY(180deg);
+}
+
+/* ---------- Hero / HUD ---------- */
+@keyframes scroll-line {
+  0% {
+    transform: scaleY(0);
+    transform-origin: top;
+  }
+  50% {
+    transform: scaleY(1);
+    transform-origin: top;
+  }
+  51% {
+    transform: scaleY(1);
+    transform-origin: bottom;
+  }
+  100% {
+    transform: scaleY(0);
+    transform-origin: bottom;
+  }
+}
+.scroll-line {
+  animation: scroll-line 2.2s cubic-bezier(0.6, 0, 0.2, 1) infinite;
+}
+@keyframes blink {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.25;
+  }
+}
+.blink {
+  animation: blink 1.4s ease-in-out infinite;
+}
+@keyframes spin-fast {
+  to {
+    transform: rotate(360deg);
+  }
+}
+.spin-fast {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: spin-fast 0.18s linear infinite;
+}
+@keyframes pulse-ring {
+  0% {
+    transform: scale(0.6);
+    opacity: 0.9;
+  }
+  100% {
+    transform: scale(1.7);
+    opacity: 0;
+  }
+}
+.pulse-ring {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: pulse-ring 1.6s ease-out infinite;
+}
+
+/* spotlight hover on industry / why cards */
+.spot {
+  position: relative;
+  overflow: hidden;
+}
+.spot::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    420px circle at var(--mx, 50%) var(--my, 50%),
+    rgba(255, 107, 0, 0.16),
+    transparent 60%
+  );
+  opacity: 0;
+  transition: opacity 0.35s;
+  pointer-events: none;
+}
+.spot:hover::before {
+  opacity: 1;
+}
+
+/* form controls */
+.field {
+  width: 100%;
+  border-radius: 0.9rem;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: rgba(255, 255, 255, 0.04);
+  padding: 0.95rem 1.1rem;
+  font-size: 0.95rem;
+  color: #fff;
+  transition:
+    border-color 0.25s,
+    background-color 0.25s,
+    box-shadow 0.25s;
+}
+.field::placeholder {
+  color: rgba(255, 255, 255, 0.35);
+}
+.field:focus {
+  outline: none;
+  border-color: #ff6b00;
+  background: rgba(255, 107, 0, 0.06);
+  box-shadow: 0 0 0 4px rgba(255, 107, 0, 0.14);
+}
+select.field option {
+  background: #111;
+  color: #fff;
+}
+
+/* ---------- Scroll reveal (the fade + slide-up is driven by GSAP ScrollTrigger in SmoothScroll) ---------- */
+html.js [data-reveal] {
+  opacity: 0;
+  transform: translate3d(0, 40px, 0);
+}
+
+/* ---------- Cursor label ("Drag") ---------- */
+.cursor-ring .cursor-label {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: #0a0a0a;
+  opacity: 0;
+  transition: opacity 0.2s;
+}
+.cursor-ring.is-label {
+  width: 92px;
+  height: 92px;
+  background: rgba(255, 107, 0, 0.92);
+  border-color: transparent;
+}
+.cursor-ring.is-label .cursor-label {
+  opacity: 1;
+}
+
+/* ---------- Preloader ---------- */
+.preloader {
+  pointer-events: all;
+}
+.preloader__half {
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 50.5%;
+  background: #0a0a0a;
+  transition: transform 0.95s cubic-bezier(0.76, 0, 0.24, 1);
+}
+.preloader__half--top {
+  top: 0;
+  background-image: radial-gradient(60% 120% at 50% 100%, rgba(255, 107, 0, 0.12), transparent 70%);
+}
+.preloader__half--bottom {
+  bottom: 0;
+  background-image: radial-gradient(60% 120% at 50% 0%, rgba(255, 107, 0, 0.12), transparent 70%);
+}
+.preloader__content {
+  transition:
+    opacity 0.45s ease,
+    transform 0.6s ease;
+}
+.preloader.is-leaving {
+  pointer-events: none;
+}
+.preloader.is-leaving .preloader__content {
+  opacity: 0;
+  transform: scale(0.94);
+}
+.preloader.is-leaving .preloader__half--top {
+  transform: translate3d(0, -101%, 0);
+}
+.preloader.is-leaving .preloader__half--bottom {
+  transform: translate3d(0, 101%, 0);
+}
+@keyframes preloader-ring {
+  0% {
+    transform: scale(0.7);
+    opacity: 0.9;
+  }
+  100% {
+    transform: scale(1.6);
+    opacity: 0;
+  }
+}
+.preloader__ring {
+  animation: preloader-ring 1.8s ease-out infinite;
+}
+@keyframes preloader-mark {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-6px);
+  }
+}
+.preloader__mark {
+  animation: preloader-mark 2.4s ease-in-out infinite;
+  filter: drop-shadow(0 0 28px rgba(255, 107, 0, 0.45));
+}
+
+/* ---------- Misc ---------- */
+.text-shadow-hero {
+  text-shadow: 0 2px 30px rgba(10, 6, 20, 0.45);
+}
+.reel-card {
+  will-change: transform, opacity;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html.js [data-reveal] {
+    opacity: 1;
+    transform: none;
+  }
+  .preloader__ring,
+  .preloader__mark {
+    animation: none !important;
+  }
+  .marquee-track,
+  .scroll-line,
+  .blink,
+  .spin-fast,
+  .pulse-ring {
+    animation: none !important;
+  }
+}
+
+/* ---------- Contact success check ---------- */
+@keyframes draw-check {
+  from { stroke-dashoffset: var(--cw, 100); }
+  to { stroke-dashoffset: 0; }
+}
+.draw-check {
+  stroke-dasharray: var(--cw, 100);
+  stroke-dashoffset: var(--cw, 100);
+  animation: draw-check 0.7s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+@media (prefers-reduced-motion: reduce) {
+  .draw-check { animation: none; stroke-dashoffset: 0; }
+}
