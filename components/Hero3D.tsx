@@ -6,7 +6,6 @@ import { brand } from '@/lib/content';
 import { flight, stations } from '@/lib/flight';
 import { gsap, ScrollTrigger } from '@/lib/gsap';
 import { useReducedMotion } from '@/lib/hooks';
-import { onReady } from '@/lib/ready';
 import { playFilm, scrollToId } from '@/lib/scroll';
 import Magnetic from './Magnetic';
 
@@ -170,8 +169,18 @@ export default function Hero3D() {
   const [inView, setInView] = useState(true);
   const [loaded, setLoaded] = useState(false);
 
+  // The page is interactive immediately; the heavy 3D chunk only starts once the browser is idle,
+  // and weaker phones get the lighter scene settings.
   useEffect(() => {
-    setEnv({ mobile: window.innerWidth < 768, webgl: canWebGL() });
+    const nav = navigator as Navigator & { deviceMemory?: number };
+    const lowEnd = (nav.hardwareConcurrency ?? 8) <= 4 || (nav.deviceMemory ?? 8) <= 3;
+    const start = () => setEnv({ mobile: window.innerWidth < 768 || lowEnd, webgl: canWebGL() });
+    if (typeof window.requestIdleCallback === 'function') {
+      const id = window.requestIdleCallback(start, { timeout: 800 });
+      return () => window.cancelIdleCallback(id);
+    }
+    const t = window.setTimeout(start, 300);
+    return () => window.clearTimeout(t);
   }, []);
 
   // keep the render loop asleep while the hero is off-screen
@@ -214,21 +223,6 @@ export default function Hero3D() {
     };
   }, []);
 
-  // headline entrance, once the preloader has parted
-  useEffect(() => {
-    if (reduced) return;
-    const items = gsap.utils.toArray<HTMLElement>('.hero-in');
-    gsap.set(items, { opacity: 0, y: 46 });
-    const off = onReady(() => {
-      gsap.to(items, { opacity: 1, y: 0, duration: 1.2, ease: 'power3.out', stagger: 0.11, delay: 0.1 });
-    });
-    return () => {
-      off();
-      gsap.killTweensOf(items);
-      gsap.set(items, { clearProps: 'opacity,transform' });
-    };
-  }, [reduced]);
-
   const onFirstDrag = useCallback(() => {
     if (hint.current) hint.current.style.opacity = '0';
   }, []);
@@ -260,17 +254,17 @@ export default function Hero3D() {
         {/* overlay */}
         <div className="pointer-events-none absolute inset-0 flex flex-col justify-between px-5 pt-28 pb-4 sm:px-8 sm:pb-6 lg:px-12">
           <div ref={copy} className="max-w-3xl will-change-transform">
-            <p className="hero-in eyebrow mb-5 flex items-center gap-3">
+            <p className="hero-in eyebrow mb-5 flex items-center gap-3" style={{ animationDelay: '0.02s' }}>
               <span className="h-px w-8 bg-orange" />
               Industrial UAV · Chennai, India
             </p>
             <h1 className="text-shadow-hero font-display text-[clamp(2.4rem,6.2vw,6rem)] leading-[0.92] font-bold tracking-tight uppercase">
-              <span className="hero-in block text-white">One Drone</span>
-              <span className="hero-in text-gradient-orange block">Endless</span>
-              <span className="hero-in text-gradient-orange block">Possibilities</span>
+              <span className="hero-in block text-white" style={{ animationDelay: '0.08s' }}>One Drone</span>
+              <span className="hero-in text-gradient-orange block" style={{ animationDelay: '0.14s' }}>Endless</span>
+              <span className="hero-in text-gradient-orange block" style={{ animationDelay: '0.2s' }}>Possibilities</span>
             </h1>
-            <p className="hero-in mt-6 max-w-xl text-base text-white/85 md:text-lg">{brand.sub}</p>
-            <div className="hero-in pointer-events-auto mt-8 flex flex-wrap items-center gap-3">
+            <p className="hero-in mt-6 max-w-xl text-base text-white/85 md:text-lg" style={{ animationDelay: '0.28s' }}>{brand.sub}</p>
+            <div className="hero-in pointer-events-auto mt-8 flex flex-wrap items-center gap-3" style={{ animationDelay: '0.36s' }}>
               <Magnetic>
                 <button
                   type="button"

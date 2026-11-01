@@ -2,7 +2,6 @@ import type { Metadata, Viewport } from 'next';
 import { Inter, JetBrains_Mono, Space_Grotesk } from 'next/font/google';
 import CustomCursor from '@/components/CustomCursor';
 import Navbar from '@/components/Navbar';
-import Preloader from '@/components/Preloader';
 import SmoothScroll from '@/components/SmoothScroll';
 import { brand } from '@/lib/content';
 import './globals.css';
@@ -58,14 +57,11 @@ const jsonLd = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    // suppressHydrationWarning: the preloader / js-class scripts toggle classes on <html> before React hydrates.
+    // suppressHydrationWarning: the js-class script toggles a class on <html> before React hydrates.
     <html lang="en" className={`${space.variable} ${inter.variable} ${mono.variable}`} suppressHydrationWarning>
       <body suppressHydrationWarning>
         {/* Marks the page as scripted so [data-reveal] content only hides when JavaScript will reveal it. */}
         <script dangerouslySetInnerHTML={{ __html: "document.documentElement.classList.add('js')" }} />
-        <noscript>
-          <style>{'.preloader{display:none!important}html.is-loading{overflow:auto!important}'}</style>
-        </noscript>
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
         <a
           href="#products"
@@ -73,7 +69,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         >
           Skip to content
         </a>
-        <Preloader />
         <CustomCursor />
         <SmoothScroll>
           <Navbar />

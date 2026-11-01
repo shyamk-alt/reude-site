@@ -440,3 +440,15 @@ html.js [data-reveal] {
 @media (prefers-reduced-motion: reduce) {
   .draw-check { animation: none; stroke-dashoffset: 0; }
 }
+
+/* ---------- Hero entrance: pure CSS so the headline is on screen from the first paint ---------- */
+@keyframes hero-rise {
+  from { opacity: 0; transform: translate3d(0, 28px, 0); }
+  to { opacity: 1; transform: translate3d(0, 0, 0); }
+}
+.hero-in {
+  animation: hero-rise 0.75s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+@media (prefers-reduced-motion: reduce) {
+  .hero-in { animation: none; }
+}
