@@ -61,6 +61,18 @@ export default function Why() {
                 <div>
                   <h3 className="font-display text-[clamp(1.4rem,2.6vw,2.2rem)] leading-tight font-semibold tracking-tight">{w.title}</h3>
                   <p className="mt-3 max-w-xl text-[0.98rem] leading-relaxed text-white/65">{w.body}</p>
+                  <div className="mt-6 max-w-xl overflow-hidden rounded-2xl border border-white/10 bg-[#0a0f1a]">
+                    <img
+                      src={w.image}
+                      alt={w.alt}
+                      width={800}
+                      height={350}
+                      loading="lazy"
+                      decoding="async"
+                      draggable={false}
+                      className="aspect-[800/350] h-auto w-full object-cover"
+                    />
+                  </div>
                 </div>
               </div>
             </li>

@@ -73,17 +73,30 @@ export default function Industries() {
             <div key={it.title} data-reveal>
               <article
                 onPointerMove={spotlight}
-                className="spot group flex min-h-[290px] flex-col rounded-3xl border border-white/10 bg-white/[0.03] p-7 transition-[transform,border-color] duration-500 hover:-translate-y-1.5 hover:border-orange/40 sm:p-8"
+                className="spot group flex min-h-[290px] flex-col overflow-hidden rounded-3xl border border-white/10 bg-white/[0.03] transition-[transform,border-color] duration-500 hover:-translate-y-1.5 hover:border-orange/40"
               >
-                <div className="flex items-start justify-between">
-                  <span className="grid h-14 w-14 place-items-center rounded-2xl border border-orange/30 bg-orange/10 text-orange transition-transform duration-500 group-hover:scale-110 group-hover:rotate-3">
+                <div className="relative aspect-[16/10] overflow-hidden bg-[#0a0f1a]">
+                  <img
+                    src={it.image}
+                    alt={it.alt}
+                    width={800}
+                    height={500}
+                    loading="lazy"
+                    decoding="async"
+                    draggable={false}
+                    className="h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-[1.06]"
+                  />
+                  <div aria-hidden="true" className="pointer-events-none absolute inset-0 bg-gradient-to-t from-[#111111]/85 via-transparent to-transparent" />
+                  <span className="absolute top-4 left-4 grid h-12 w-12 place-items-center rounded-2xl border border-orange/40 bg-black/55 text-orange backdrop-blur-sm transition-transform duration-500 group-hover:scale-110 group-hover:rotate-3">
                     {ICONS[it.title]}
                   </span>
-                  <span className="font-mono text-xs tracking-[0.2em] text-white/30">0{i + 1}</span>
+                  <span className="absolute top-5 right-5 font-mono text-xs tracking-[0.2em] text-white/70">0{i + 1}</span>
                 </div>
-                <h3 className="mt-auto pt-10 font-display text-3xl font-bold tracking-tight">{it.title}</h3>
-                <p className="mt-1 font-mono text-[0.7rem] tracking-[0.18em] text-orange uppercase">{it.sub}</p>
-                <p className="mt-4 text-[0.95rem] leading-relaxed text-white/65">{it.body}</p>
+                <div className="flex flex-1 flex-col p-6 sm:p-7">
+                  <h3 className="font-display text-3xl font-bold tracking-tight">{it.title}</h3>
+                  <p className="mt-1 font-mono text-[0.7rem] tracking-[0.18em] text-orange uppercase">{it.sub}</p>
+                  <p className="mt-3 text-[0.95rem] leading-relaxed text-white/65">{it.body}</p>
+                </div>
               </article>
             </div>
           ))}

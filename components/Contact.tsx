@@ -99,6 +99,19 @@ export default function Contact() {
               <p className="mt-1 max-w-sm leading-relaxed text-white/60">{brand.address}</p>
             </li>
           </ul>
+
+          <div data-reveal className="mt-10 max-w-xl overflow-hidden rounded-2xl border border-white/10 bg-[#0a0f1a]">
+            <img
+              src="/why/contact-ready.svg"
+              alt="REUDE drone ready for deployment on a landing pad at sunset"
+              width={800}
+              height={350}
+              loading="lazy"
+              decoding="async"
+              draggable={false}
+              className="aspect-[800/350] h-auto w-full object-cover"
+            />
+          </div>
         </div>
 
         <div data-reveal className="glass relative rounded-[1.75rem] p-6 sm:p-9">

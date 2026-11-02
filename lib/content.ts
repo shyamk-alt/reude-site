@@ -207,21 +207,21 @@ export const story = {
 };
 
 export const industries = [
-  { title: 'Farming', sub: 'Crop Spraying', body: 'Autonomous, even coverage across large fields with swappable payloads.' },
-  { title: 'Defense', sub: 'Border Surveillance', body: 'Long-endurance surveillance and secure payload handling in extreme conditions.' },
-  { title: 'Logistics', sub: 'Medical Delivery', body: 'Fast, cable-less delivery of 5–50 KG payloads with 30-second payload swaps.' },
-  { title: 'Renewable Energy', sub: 'Windmill + Solar Inspection', body: 'RGB + thermal inspection of turbine blades and solar arrays, analysed by AI.' },
-  { title: 'Infrastructure', sub: 'Bridge, Powerline', body: 'Close-up inspection of assets that are slow, costly or dangerous to reach.' },
-  { title: 'Industrial', sub: 'Factory', body: 'Repeatable site inspection and internal logistics for industrial operations.' },
+  { title: 'Farming', image: '/industries/farming.svg', alt: 'Drone spraying a crop field at sunrise', sub: 'Crop Spraying', body: 'Autonomous, even coverage across large fields with swappable payloads.' },
+  { title: 'Defense', image: '/industries/defense.svg', alt: 'Surveillance drone scanning a mountain border fence at night', sub: 'Border Surveillance', body: 'Long-endurance surveillance and secure payload handling in extreme conditions.' },
+  { title: 'Logistics', image: '/industries/logistics.svg', alt: 'Delivery drone carrying a medical parcel across a city at dusk', sub: 'Medical Delivery', body: 'Fast, cable-less delivery of 5–50 KG payloads with 30-second payload swaps.' },
+  { title: 'Renewable Energy', image: '/industries/renewable-energy.svg', alt: 'Drone inspecting a wind turbine blade beside a solar array', sub: 'Windmill + Solar Inspection', body: 'RGB + thermal inspection of turbine blades and solar arrays, analysed by AI.' },
+  { title: 'Infrastructure', image: '/industries/infrastructure.svg', alt: 'Drone inspecting a bridge tower and power lines at sunset', sub: 'Bridge, Powerline', body: 'Close-up inspection of assets that are slow, costly or dangerous to reach.' },
+  { title: 'Industrial', image: '/industries/industrial.svg', alt: 'Drone inspecting storage tanks and pipework at a factory', sub: 'Factory', body: 'Repeatable site inspection and internal logistics for industrial operations.' },
 ];
 
 export const why = [
-  { title: 'Dual Patented', body: 'Core payload and handling technology protected by two patents.' },
-  { title: 'Made in India', body: 'Designed and built in Chennai, Tamil Nadu — including RotriX, India\'s indigenous motor-testing software.' },
-  { title: 'Autonomous', body: 'Autonomous missions, autonomous payload release, autonomous inspection.' },
-  { title: 'Cable-Less', body: 'No hooks, ropes or winches — cable-less operations with 360° anti-collision.' },
-  { title: 'AI-Powered', body: 'CompliQ detects defects, DynoX flags anomalies and an AI Copilot answers in plain language.' },
-  { title: 'Extreme Conditions', body: 'Built to keep working across logistics, agriculture and industrial environments.' },
+  { title: 'Dual Patented', image: '/why/why-patent.svg', alt: 'Patent-style line drawing of a drone and its payload clamp', body: 'Core payload and handling technology protected by two patents.' },
+  { title: 'Made in India', image: '/why/why-made-in-india.svg', alt: 'Drone being assembled on a workshop bench', body: 'Designed and built in Chennai, Tamil Nadu — including RotriX, India\'s indigenous motor-testing software.' },
+  { title: 'Autonomous', image: '/why/why-autonomous.svg', alt: 'Autonomous drone following a waypoint route inside a geofence', body: 'Autonomous missions, autonomous payload release, autonomous inspection.' },
+  { title: 'Cable-Less', image: '/why/why-cable-less.svg', alt: 'Cable-less payload drone with 360-degree anti-collision rings', body: 'No hooks, ropes or winches — cable-less operations with 360° anti-collision.' },
+  { title: 'AI-Powered', image: '/why/why-ai.svg', alt: 'AI detecting defects on a wind turbine blade', body: 'CompliQ detects defects, DynoX flags anomalies and an AI Copilot answers in plain language.' },
+  { title: 'Extreme Conditions', image: '/why/why-extreme.svg', alt: 'Drone flying through rain, wind and lightning', body: 'Built to keep working across logistics, agriculture and industrial environments.' },
 ];
 
 export const supporters = [
